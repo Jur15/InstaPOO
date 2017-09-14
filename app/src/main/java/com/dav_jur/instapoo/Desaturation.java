@@ -46,18 +46,18 @@ public class Desaturation implements FiltroMap{
         getAltura(Map);
         getAncho(Map);
         int R,G,B,Grey,min,max;
-        Color colorEvaluado, nuevoColor;
+        int colorInteger,nuevoColorInt;
         for(int i = 0; i < altura; i++ ){
             for(int a = 0; a < ancho; a++){
-                colorEvaluado = Map.getPixel(i,a);
-                R = colorEvaluado.red(colorEvaluado);
-                G = colorEvaluado.green(colorEvaluado);
-                B = colorEvaluado.blue(colorEvaluado);
+                colorInteger = Map.getPixel(i,a);
+                R = (colorInteger >> 16) & 0xff;
+                G = (colorInteger >> 8) & 0xff;
+                B = (colorInteger) & 0xff;
                 min = Min(R,G,B);
                 max = Max(R,G,B);
                 Grey = (min + max)/2;
-                nuevoColor = nuevoColor.valueOf(Grey,Grey,Grey);
-                Map.setPixel(i,a,nuevoColor);
+                nuevoColorInt = Color.rgb(Grey,Grey,Grey);
+                Map.setPixel(i,a,nuevoColorInt);
             }
         }
     }
