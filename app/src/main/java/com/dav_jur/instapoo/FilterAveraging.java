@@ -3,7 +3,7 @@ package com.dav_jur.instapoo;
 import android.graphics.Color;
 import android.graphics.Bitmap;
 
-public class FilterAveraging implements FiltroMap{
+public class FilterAveraging implements IFiltroMap {
     int[] Kernel = new int[9];
     int altura;
     int ancho;

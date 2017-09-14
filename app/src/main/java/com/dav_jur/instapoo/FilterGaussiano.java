@@ -3,13 +3,13 @@ package com.dav_jur.instapoo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-public class Convoluciones implements FiltroMap{
-  int[][] Kernel = {{0,1,0},{1,4,1},{0,1,0}};
+public class FilterGaussiano implements IFiltroMap {
+  float[][] Kernel = {{0.0113437f,0.083819f,0.011343f},{0.0838195f,0.619347f,0.083819f},{0.0113437f,0.083819f,0.011343f}};
   int altura;
   int ancho;
   Bitmap Map;
 
-  public Convoluciones(Bitmap mapaBits){
+  public FilterGaussiano(Bitmap mapaBits){
     this.Map = mapaBits;
   }
 
@@ -21,8 +21,8 @@ public class Convoluciones implements FiltroMap{
     this.ancho = mapaBits.getWidth();
   }
 
-  public int procesarMatricesR (int[] matrisColores){
-    int sumatoria = 0;
+  public float procesarMatricesR (int[] matrisColores){
+    float sumatoria = 0.0f;
     int indice = 0;
     int valorRojo;
     for ( int i = 0; i < 3; i++){
@@ -41,8 +41,8 @@ public class Convoluciones implements FiltroMap{
     return sumatoria;
   }
 
-  public int procesarMatricesG (int[] matrisColores){
-    int sumatoria = 0;
+  public float procesarMatricesG (int[] matrisColores){
+    float sumatoria = 0.0f;
     int indice = 0;
     int valorVerde;
     for ( int i = 0; i < 3; i++){
@@ -61,8 +61,8 @@ public class Convoluciones implements FiltroMap{
     return sumatoria;
   }
 
-  public int procesarMatricesB (int[] matrisColores){
-    int sumatoria = 0;
+  public float procesarMatricesB (int[] matrisColores){
+    float sumatoria = 0.0f;
     int indice = 0;
     int valorAzul;
     for ( int i = 0; i < 3; i++){
@@ -85,7 +85,8 @@ public class Convoluciones implements FiltroMap{
     getAltura(Map);
     getAncho(Map);
     int[] bits = new int[9];
-    int R,G,B,Grey,x,y,w;
+    float R,G,B;
+    int x,y,w;
     int nuevoColor;
     for(int i = 0; i < altura; i++ ){
       for(int a = 0; a < ancho; a++){
@@ -93,7 +94,7 @@ public class Convoluciones implements FiltroMap{
         for(int p = 0; p < 3; p++){
           y = a - 1;
           for (int q = 0; q < 3; q++){
-              w = x * 3 + y;
+            w = x * 3 + y;
             if (x < 0 || x > ancho-1){
               bits[w] = 0;
             }
@@ -110,7 +111,7 @@ public class Convoluciones implements FiltroMap{
         R = procesarMatricesR(bits);
         G = procesarMatricesG(bits);
         B = procesarMatricesB(bits);
-        nuevoColor = Color.rgb(R,G,B);
+        nuevoColor = Color.rgb(Math.round(R),Math.round(G),Math.round(B));
         Map.setPixel(i,a,nuevoColor);
       }
     }

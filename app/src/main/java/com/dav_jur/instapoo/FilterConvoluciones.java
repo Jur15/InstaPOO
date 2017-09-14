@@ -3,13 +3,13 @@ package com.dav_jur.instapoo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-public class Gaussiano implements FiltroMap{
-  float[][] Kernel = {{0.0113437f,0.083819f,0.011343f},{0.0838195f,0.619347f,0.083819f},{0.0113437f,0.083819f,0.011343f}};
+public class FilterConvoluciones implements IFiltroMap {
+  int[][] Kernel = {{0,1,0},{1,4,1},{0,1,0}};
   int altura;
   int ancho;
   Bitmap Map;
 
-  public Gaussiano(Bitmap mapaBits){
+  public FilterConvoluciones(Bitmap mapaBits){
     this.Map = mapaBits;
   }
 
@@ -21,8 +21,8 @@ public class Gaussiano implements FiltroMap{
     this.ancho = mapaBits.getWidth();
   }
 
-  public float procesarMatricesR (int[] matrisColores){
-    float sumatoria = 0.0f;
+  public int procesarMatricesR (int[] matrisColores){
+    int sumatoria = 0;
     int indice = 0;
     int valorRojo;
     for ( int i = 0; i < 3; i++){
@@ -41,8 +41,8 @@ public class Gaussiano implements FiltroMap{
     return sumatoria;
   }
 
-  public float procesarMatricesG (int[] matrisColores){
-    float sumatoria = 0.0f;
+  public int procesarMatricesG (int[] matrisColores){
+    int sumatoria = 0;
     int indice = 0;
     int valorVerde;
     for ( int i = 0; i < 3; i++){
@@ -61,8 +61,8 @@ public class Gaussiano implements FiltroMap{
     return sumatoria;
   }
 
-  public float procesarMatricesB (int[] matrisColores){
-    float sumatoria = 0.0f;
+  public int procesarMatricesB (int[] matrisColores){
+    int sumatoria = 0;
     int indice = 0;
     int valorAzul;
     for ( int i = 0; i < 3; i++){
@@ -85,8 +85,7 @@ public class Gaussiano implements FiltroMap{
     getAltura(Map);
     getAncho(Map);
     int[] bits = new int[9];
-    float R,G,B;
-    int x,y,w;
+    int R,G,B,Grey,x,y,w;
     int nuevoColor;
     for(int i = 0; i < altura; i++ ){
       for(int a = 0; a < ancho; a++){
@@ -94,7 +93,7 @@ public class Gaussiano implements FiltroMap{
         for(int p = 0; p < 3; p++){
           y = a - 1;
           for (int q = 0; q < 3; q++){
-            w = x * 3 + y;
+              w = x * 3 + y;
             if (x < 0 || x > ancho-1){
               bits[w] = 0;
             }
@@ -111,7 +110,7 @@ public class Gaussiano implements FiltroMap{
         R = procesarMatricesR(bits);
         G = procesarMatricesG(bits);
         B = procesarMatricesB(bits);
-        nuevoColor = Color.rgb(Math.round(R),Math.round(G),Math.round(B));
+        nuevoColor = Color.rgb(R,G,B);
         Map.setPixel(i,a,nuevoColor);
       }
     }

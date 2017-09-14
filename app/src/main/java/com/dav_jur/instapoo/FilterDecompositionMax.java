@@ -3,12 +3,12 @@ package com.dav_jur.instapoo;
 import android.graphics.Color;
 import android.graphics.Bitmap;
 
-public class Desaturation implements FiltroMap{
+public class FilterDecompositionMax implements IFiltroMap {
     int altura;
     int ancho;
     Bitmap Map;
 
-    public Desaturation(Bitmap mapaBits){
+    public FilterDecompositionMax(Bitmap mapaBits){
         this.Map = mapaBits;
     }
 
@@ -20,7 +20,7 @@ public class Desaturation implements FiltroMap{
         this.ancho = mapaBits.getWidth();
     }
 
-    public int Max(int A, int B, int C){
+    public int max(int A, int B, int C){
         if(A > B){
             if(A > C) return A;
             else return C;
@@ -31,21 +31,10 @@ public class Desaturation implements FiltroMap{
         }
     }
 
-    public int Min(int A, int B, int C){
-        if(A < B){
-            if(A < C) return A;
-            else return C;
-        }
-        else{
-            if (B < C) return B;
-            else return C;
-        }
-    }
-
     public void procesarMap (){
         getAltura(Map);
         getAncho(Map);
-        int R,G,B,Grey,min,max;
+        int R,G,B,Grey;
         int colorInteger,nuevoColorInt;
         for(int i = 0; i < altura; i++ ){
             for(int a = 0; a < ancho; a++){
@@ -53,9 +42,7 @@ public class Desaturation implements FiltroMap{
                 R = (colorInteger >> 16) & 0xff;
                 G = (colorInteger >> 8) & 0xff;
                 B = (colorInteger) & 0xff;
-                min = Min(R,G,B);
-                max = Max(R,G,B);
-                Grey = (min + max)/2;
+                Grey = max(R,G,B);
                 nuevoColorInt = Color.rgb(Grey,Grey,Grey);
                 Map.setPixel(i,a,nuevoColorInt);
             }

@@ -3,12 +3,12 @@ package com.dav_jur.instapoo;
 import android.graphics.Color;
 import android.graphics.Bitmap;
 
-public class DecompositionMax implements FiltroMap{
+public class FilterDecompositionMin implements IFiltroMap {
     int altura;
     int ancho;
     Bitmap Map;
 
-    public DecompositionMax(Bitmap mapaBits){
+    public FilterDecompositionMin(Bitmap mapaBits){
         this.Map = mapaBits;
     }
 
@@ -20,13 +20,13 @@ public class DecompositionMax implements FiltroMap{
         this.ancho = mapaBits.getWidth();
     }
 
-    public int Max(int A, int B, int C){
-        if(A > B){
-            if(A > C) return A;
+    public int min(int A, int B, int C){
+        if(A < B){
+            if(A < C) return A;
             else return C;
         }
         else{
-            if (B > C) return B;
+            if (B < C) return B;
             else return C;
         }
     }
@@ -42,7 +42,7 @@ public class DecompositionMax implements FiltroMap{
                 R = (colorInteger >> 16) & 0xff;
                 G = (colorInteger >> 8) & 0xff;
                 B = (colorInteger) & 0xff;
-                Grey = Max(R,G,B);
+                Grey = min(R,G,B);
                 nuevoColorInt = Color.rgb(Grey,Grey,Grey);
                 Map.setPixel(i,a,nuevoColorInt);
             }

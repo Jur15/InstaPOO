@@ -1,6 +1,7 @@
 package com.dav_jur.instapoo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import java.io.File;
@@ -19,13 +21,9 @@ import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends Activity implements IConstants{
     private Camera mCamera;
     private SurfaceView mPreview;
-
-    //-----Static stuff----
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
     /** A safe way to get an instance of the Camera object. */
     public static Camera getCameraInstance(){
@@ -112,9 +110,13 @@ public class CameraActivity extends Activity {
         }
     };
 
-    public void buttonClick(View v) {
+    public void buttonClick(View view) {
         // get an image from the camera
+        mCamera.startPreview();
         mCamera.takePicture(null, null, mPicture);
+
+        Intent intent = new Intent(this, ApplyFilterActivity.class);
+        startActivity(intent);
     }
 
     @Override
